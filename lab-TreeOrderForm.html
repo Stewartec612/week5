@@ -63,10 +63,7 @@
     let homeownerHouseNumberInput = document.querySelector('#homeowner-house-number')
     let homeownerStreetNameInput = document.querySelector('#homeowner-street-name')
     let treeTypeSelect = document.querySelector('#tree-type')
-
-    // TODO create a variable for city input element
     let cityInput = document.querySelector('#city')
-    // TODO create a variable for zip code input element
     let zipInput = document.querySelector('#zipcode')
 
     let submitButton = document.querySelector('#submit-order')
@@ -74,6 +71,7 @@
     let orderSummaryParagraph = document.querySelector('#order-summary')
 
     submitButton.addEventListener('click', function() {
+        let errors = []
 
         let name = homeownerNameInput.value
         let houseNumber = homeownerHouseNumberInput.value
@@ -82,45 +80,57 @@
         let cityName = cityInput.value
         let zipCode = zipInput.value
 
-        // TODO get the value from the input#city
-        // TODO get the value from the input#zipcode
+        // If a form element has not been completed, add an error message to the errors array (use push)
+        // display an alert with all of the error messages (use join)
+        if (!name){
+            errors.push('Please enter your name')
+        }
 
-        // TODO Validate that all six input and select elements have been completed
+        if (houseNumber === ''){
+            errors.push('Please enter the house number')
+        }
+        if (streetName === ''){
+            errors.push('Please enter the street name')
+        }
+        if (!cityName) {
+            errors.push('Please enter your cities name')
+        }
+        if(!treeType){
+            errors.push('Please select a type of tree')
+        }
 
-
-        // TODO Validate the zipcode is in the range 55001 and 56763. This will check that the zip code is in Minnesota.
         if (zipCode < 55001 || zipCode > 56763){
             errors.push('did not enter a valid Minnesota zip code (between 55001-56763)')
         }
+        if (errors.length > 0){
+            let errorMsg = errors.join('\n')
+            alert(errorMsg)
+        }
+        orderSummaryParagraph.innerHTML = `
+        Customer: ${name}\n
+        House number: ${houseNumber}\n
+        Street name: ${streetName}\n
+        City Name: ${cityName}\n
+        Zip code: ${zipCode}\n
+        Type of tree: ${treeType}
+
+        `
+        //can't figure out how to have it print out like a list right now
+
+    })
 
 
-        let errors = []
-    if (!name){
-        errors.push('Please enter your name')
-    }
-
-    if (houseNumber === ''){
-        errors.push('Please enter the house number')
-    }
-    if (streetName === ''){
-        errors.push('Please enter the street name')
-    }
-    if (!cityName) {
-        errors.push('Please enter your cities name')
-    }
-        // If a form element has not been completed, add an error message to the errors array (use push)
-    return alert(errors)
 
 
-        // TODO - If there are any errors after checking all of the elements,
-        // display an alert with all of the error messages (use join)
+
+
+
         // and then return from this function to prevent further processing
 
 
-        // TODO - If there are no errors, use a template string to display an order summary in the order summary paragraph
 
 
-    })
+
 
 
 
