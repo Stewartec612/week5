@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
     <title>GitHub Repository Analysis</title>
     <!-- Optional - add some styles -->
@@ -42,9 +39,11 @@
 
 
     analyzeButton.addEventListener('click', function() {
+        // TODO what happens if you search for one user, then another user? Clear previous search results before displaying new list of repositorites
+        repoList.innerHTML = ""
+
         let username = usernameInput.value
         let url = `https://api.github.com/users/${username}/repos`
-
 
         statusMessage.innerHTML = 'Please wait...'
 
@@ -62,26 +61,80 @@
             })
     })
 
+    // TODO use the JSON to display a list of the user's repositories
     function displayRepositoriesOnPage(githubJson) {
-        for (let x = 0; x < githubJson.length; x++){
-            console.log(githubJson[x])
+        // What if the user doesn't have any repositories? Display an appropriate message - you can decide how you'll display this.
+        if (githubJson === "") {
+            alert('User has no repositories!')
+            return
         }
 
-       // console.log(githubJson)   // just to show you that the JSON is available here
-
-        // TODO use the JSON to display a list of the user's repositories
-
-        // TODO can you create a link to that repository at GitHub?
-
-        //   Hint: you can make a new a element, and set that element's src attribute like this
-        //   myNewAElement.src = 'https://whatever.the.url.is'   // in this code, your URL will most likely be a variable
-
-        // TODO what happens if you search for one user, then another user? Clear previous search results before displaying new list of repositorites
-
-        // What if the user doesn't have any repositories? Display an appropriate message - you can decide how you'll display this.
+        console.log(githubJson)   // just to show you that the JSON is available here
 
         // TODO analyze the response and count the number of repositories in each programming language.
-        // TODO create elements on page to display the languages used and each languages' frequency
+        let JavaScript = 0
+        let Java = 0
+        let Python = 0
+        let CSharp = 0
+        let Swift = 0
+        let Kotlin = 0
+        let noLanguage = 0
+
+        for (let i = 0; i < githubJson.length; i++) {
+            let repository = githubJson[i]
+            let name = repository["name"]
+            let language = repository["language"]
+
+            if (language === "JavaScript") {
+                JavaScript ++
+            }
+            if (language === "Java") {
+                Java++
+
+            }
+            if (language === "Python") {
+                Python++
+
+            }
+            if (language === "C#") {
+                CSharp++
+
+            }
+            if (language === "Swift") {
+                Swift++
+
+            }
+            if (language === "Kotlin") {
+                Kotlin++
+
+            }
+
+
+
+
+            // TODO can you create a link to that repository at GitHub?
+            //   Hint: you can make a new a element, and set that element's src attribute like this
+            //   myNewAElement.src = 'https://whatever.the.url.is'   // in this code, your URL will most likely be a variable
+            let link = repository["html_url"]
+            let newLink = document.createElement("a")
+            newLink.href = link
+
+            newLink.innerHTML = "Link to Repository at GitHub "
+            let newParagraph = document.createElement("p")
+            newParagraph.innerHTML = `${name}, ${link}, ${language}`
+
+
+            repoList.appendChild(newParagraph)
+            repoList.appendChild(newLink)
+
+            // TODO create elements on page to display the languages used and each languages' frequency
+            repoStats.innerHTML = `Language usage: ${JavaScript} use Java Script, ${Java} use Java, ${Python} Use Python, ${CSharp} use C# ${Swift} use Swift, ${Kotlin} use Kotlin`
+
+
+        }
+
+
+
 
     }
 
